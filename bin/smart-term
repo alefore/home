@@ -1,0 +1,7 @@
+#!/bin/sh
+if [ $(hostname) == "brachiosaurus" ]; then
+  FONT="-misc-fixed-medium-r-normal-*-18-120-100-*-c-90-iso10646-1"
+else
+  FONT="-Misc-Fixed-Medium-r-Normal-*-13-120-75-75-C-80-ISO10646-1"
+fi
+xterm -ls -fn $FONT +sb -sl 0 -si $*
