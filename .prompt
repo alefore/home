@@ -1,0 +1,49 @@
+case $TERM in
+  xterm*)
+    TITLEBAR="\[\e]0;\u@\H:\w\007\]"
+    ;;
+  *)
+    TITLEBAR=""
+    ;;
+esac
+
+GRAD1=`tty|cut -d/ -f3,4`
+COLOR1="\[\033[0;36m\]"
+COLOR2="\[\033[1;36m\]"
+COLOR3="\[\033[1;30m\]"
+COLOR4="\[\033[0m\]"
+RED='\e[1;31m'
+
+function normal_information {
+  git branch 2>/dev/null | sed -e '/^*/!d' -e 's/^* //'
+  test "$BACKGROUND_JOBS" && echo $BACKGROUND_JOBS
+}
+
+function last_exit_code {
+  export LAST_EXIT_CODE=$?
+  export BACKGROUND_JOBS=$(jobs | awk '{ if ($2 == "Stopped") { s++ } }; { if ($2 == "Running") { r++ } }; END { if (s > 0) { print "s:"s } }; END { if (r > 0) { print "r:"r } };')
+}
+
+function show_errors {
+  if test "$LAST_EXIT_CODE" != "0"; then
+    echo -n " exit:$LAST_EXIT_CODE"
+  fi
+  if which prodcertstatus >/dev/null 2>&1 && ! prodcertstatus --check_loas --check_remaining_hours=1 >/dev/null 2>&1; then
+    echo -n " prodaccess"
+  fi
+  if ! ls -d . >/dev/null 2>&1; then
+    echo -n " dirgone"
+  fi
+}
+
+PROMPT_COMMAND="last_exit_code"
+
+PS1=\
+"$TITLEBAR"\
+"$COLOR3($COLOR1\u \$(normal_information | tr '\n' ' ')\H$RED\$(show_errors)$COLOR3)$COLOR1-"\
+"$COLOR3($COLOR1\$(date '+%d %b %H:%M')$COLOR3)"\
+"$COLOR1-$COLOR3-"\
+"$COLOR4\n"\
+"$COLOR3($COLOR1\w \$(ls 2>/dev/null|wc -l)$COLOR3)$COLOR1-$COLOR3-$COLOR4 " 
+
+PS2="$COLOR1-$COLOR3-$COLOR4 "
