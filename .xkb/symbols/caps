@@ -1,4 +1,5 @@
 hidden partial modifier_keys
 xkb_symbols "caps" {
-  replace key <CAPS> { [ Tab ] };
+  replace key <CAPS> {[ Control_L ]};
+  modifier_map Control { <CAPS> };
 };
