@@ -9,6 +9,7 @@ xkb_symbols "accents" {
   };
 
   replace key <SPCE> {[ space, space, space, nobreakspace ]};
+  replace key <AE11> {[ minus, underscore, endash, emdash ]};
 
   // Spanish characters.
   replace key <AE01> {[ 1, exclam, exclamdown ]};
@@ -26,7 +27,7 @@ xkb_symbols "accents" {
   replace key <AC08> {[ k, K, idiaeresis, Idiaeresis ]};
   replace key <AC09> {[ l, L, odiaeresis, Odiaeresis ]};
   replace key <AB01> {[ z, Z, adiaeresis, Adiaeresis ]};
-  replace key <AB02> {[ x, X, ssharp ]};
+  replace key <AB02> {[ x, X, ssharp, U00D7 ]};
   replace key <AB06> {[ n, N, ntilde, Ntilde ]};
   replace key <AB10> {[ slash, question, questiondown ]};
 };
